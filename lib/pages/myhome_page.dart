@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_fetch_api/models/user_model.dart';
+import 'package:riverpod_fetch_api/pages/details_page.dart';
 import 'package:riverpod_fetch_api/providers/data_provider.dart';
 
 class MyHomePage extends ConsumerWidget {
@@ -31,22 +32,30 @@ class MyHomePage extends ConsumerWidget {
                     child: ListView.builder(
                       itemCount: userList.length,
                       itemBuilder: (_, index) {
-                        return Card(
-                          color: Colors.blue,
-                          elevation: 4,
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          child: ListTile(
-                            title: Text(
-                              userList[index].firstName!,
-                              style: const TextStyle(color: Colors.white),
+                        return InkWell(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  DetailsPage(userModel: data[index]),
                             ),
-                            subtitle: Text(
-                              userList[index].lastName!,
-                              style: const TextStyle(color: Colors.white),
+                          ),
+                          child: Card(
+                            color: Colors.blue,
+                            elevation: 4,
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            child: ListTile(
+                              title: Text(
+                                userList[index].firstName!,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              subtitle: Text(
+                                userList[index].lastName!,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              trailing: CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(userList[index].avatar!)),
                             ),
-                            trailing: CircleAvatar(
-                                backgroundImage:
-                                    NetworkImage(userList[index].avatar!)),
                           ),
                         );
                       },
